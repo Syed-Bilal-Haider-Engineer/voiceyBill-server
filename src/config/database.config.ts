@@ -36,7 +36,7 @@ const connectDbWithRetry = async (dbURI: string, maxRetries: number) => {
       // const uri =
       //   process.env.NODE_ENV === "test" ? await getMemoryServerUri() : dbURI;
       await mongoose.connect(uri, {
-        dbName: "money-tracker",
+        dbName: Env.MONGO_DB_NAME,
         connectTimeoutMS: 10000,
         serverSelectionTimeoutMS: 10000,
         socketTimeoutMS: 45000,

@@ -87,7 +87,19 @@ body:
     id: logs
     attributes:
       label: Logs, stack traces, and screenshots
-      description: Paste complete error output and screenshots where relevant.
+      description: Paste complete error output. Attach screenshots or screen recordings directly in GitHub or paste links here.
+      placeholder: |
+        - Server logs
+        - Stack traces
+        - Request/response examples
+        - Screenshot or video link
+
+  - type: textarea
+    id: media
+    attributes:
+      label: Images or videos
+      description: If the bug is visible in the UI or API flow, include images or screen recordings.
+      placeholder: Link to screenshots, a GIF, or a walkthrough video.
       render: shell
 
   - type: checkboxes
