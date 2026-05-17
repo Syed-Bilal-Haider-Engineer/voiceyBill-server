@@ -1,0 +1,19 @@
+services:
+  mongo:
+    image: mongo:7
+    container_name: voiceybill-mongo
+    restart: unless-stopped
+    ports:
+      - "27017:27017"
+    environment:
+      MONGO_INITDB_DATABASE: voiceybill
+    volumes:
+      - voiceybill-mongo-data:/data/db
+    healthcheck:
+      test: ["CMD", "mongosh", "--eval", "db.runCommand({ ping: 1 })"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+volumes:
+  voiceybill-mongo-data:

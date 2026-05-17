@@ -8,6 +8,9 @@ Thanks for your interest in contributing. This guide covers all three packages i
 - Focus pull requests on one clear change.
 - Open an issue before starting major features.
 - Do not include secrets or production credentials in any commit.
+- Use the issue templates for every new issue. Blank issues are disabled.
+- Use the PR template for every pull request. PRs without the template completed are not considered ready for review.
+- Include screenshots, screen recordings, or request/response samples when the problem involves visible behavior or API flow.
 
 ## Backend
 
@@ -114,3 +117,8 @@ Keep one issue focused on one topic so it can be triaged quickly. Include a scre
 
 - Do not open public issues for security vulnerabilities.
 - Use GitHub Security Advisories for responsible disclosure.
+
+## Helpful setup reminders
+
+- Start MongoDB with Docker before running the backend locally.
+- Use `MONGO_DB_NAME=voiceybill` so every contributor uses the same logical database name.
