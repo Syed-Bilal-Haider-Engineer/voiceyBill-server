@@ -294,7 +294,7 @@ export const resendReportService = async (userId: string, reportId: string) => {
     email: user.email,
     username: user.name,
     report: toReportEmailDTO(generatedReport.summary, generatedReport.period),
-    frequency:ReportFrequencyEnum.CUSTOM,
+    frequency:ReportFrequencyEnum.MONTHLY,
   });
 };
 

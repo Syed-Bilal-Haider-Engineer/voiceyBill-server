@@ -27,11 +27,9 @@ export const getReportEmailTemplate = (
         <td style="padding:10px 0;font-size:14px;color:#555;border-bottom:1px solid #f0f0f0;text-transform:capitalize;">
           ${cat.name}
         </td>
-
         <td style="padding:10px 0;font-size:14px;color:#171717;text-align:right;border-bottom:1px solid #f0f0f0;">
           ${formatCurrency(cat.amount)}
         </td>
-
         <td style="padding:10px 0;font-size:14px;color:#888;text-align:right;border-bottom:1px solid #f0f0f0;">
           ${cat.percent}%
         </td>
