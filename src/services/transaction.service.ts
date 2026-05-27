@@ -426,6 +426,10 @@ export const scanReceiptService = async (
   }
 
   try {
+    if (!file.path) {
+     throw new BadRequestException("Failed to upload file");
+    }
+    
     if (!file.path.startsWith("https://res.cloudinary.com/")) {
       throw new BadRequestException("Failed to upload file");
     }
