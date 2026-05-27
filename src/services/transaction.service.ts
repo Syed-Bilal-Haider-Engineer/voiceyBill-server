@@ -428,21 +428,7 @@ export const scanReceiptService = async (
   try {
     if (!file.path) {
      throw new BadRequestException("Failed to upload file");
-    }
-    
-    if (!file.path.startsWith("https://res.cloudinary.com/")) {
-      throw new BadRequestException("Failed to upload file");
-    }
-    
-    // Fetch the image from Cloudinary and convert to base64
-    const urlObj = new URL(file.path);
-    const cloudinaryUrl = `https://res.cloudinary.com${urlObj.pathname}${urlObj.search}`;
-    const response = await fetch(cloudinaryUrl);
-    const arrayBuffer = await response.arrayBuffer();
-    const base64String = Buffer.from(arrayBuffer).toString("base64");
-    const mimeType = file.mimetype || "image/jpeg";
-    const base64DataUri = `data:${mimeType};base64,${base64String}`;
-
+    } 
     const result = await openai.chat.completions.create({
       model: openAIModel,
       messages: [
@@ -450,7 +436,7 @@ export const scanReceiptService = async (
           role: "user",
           content: [
             { type: "text", text: receiptPrompt },
-            { type: "image_url", image_url: { url: base64DataUri } },
+            { type: "image_url", image_url: { url: file.path } },
           ],
         },
       ],
@@ -460,7 +446,6 @@ export const scanReceiptService = async (
     });
 
     const content = result.choices[0]?.message?.content;
-
     if (!content) {
       throw new BadRequestException("Could not read receipt content");
     }
