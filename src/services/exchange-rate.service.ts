@@ -1,9 +1,9 @@
 import axios from "axios";
 import ExchangeRateCacheModel from "../models/exchange-rate-cache.model";
 import { FALLBACK_SUPPORTED_CURRENCIES } from "../utils/currency.constants";
-
-const PROVIDER_BASE_URL = "https://api.frankfurter.dev/v1";
-const REQUEST_TIMEOUT_MS = 10000;
+import { InternalServerException } from "../utils/app-error";
+const PROVIDER_BASE_URL = process.env.EXCHANGE_RATE_PROVIDER_URL;
+const REQUEST_TIMEOUT_MS = Number(process.env.EXCHANGE_RATE_TIMEOUT_MS);
 
 export interface ExchangeRateResult {
   rate: number;
@@ -78,7 +78,7 @@ export class ExchangeRateService {
       };
     }
 
-    throw new Error(
+    throw new InternalServerException(
       `Exchange rate unavailable. No live or cached rate found.`,
     );
   }

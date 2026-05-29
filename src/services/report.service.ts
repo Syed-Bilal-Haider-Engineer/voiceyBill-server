@@ -230,6 +230,8 @@ export const generateReportService = async (
       startDate: fromDate,
       endDate: toDate,
       status: ReportStatusEnum.SENT,
+      baseCurrency,
+      currencySummary: formattedCurrencySummary
     },
     { upsert: true, new: true, setDefaultsOnInsert: true },
   );

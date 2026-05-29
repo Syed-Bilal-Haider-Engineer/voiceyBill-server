@@ -10,7 +10,8 @@ import {
 import { openai, openAIModel } from "../config/openai.config";
 import { receiptPrompt } from "../utils/prompt";
 import { resolveUserCurrencyConversion } from "./currency-conversion.service";
-
+import UserModel from "../models/user.model";
+import { resolveCurrencyConversion } from "./currency-conversion.service";
 /**
  * Sanitize and validate pagination inputs to prevent abuse and crashes
  * @param pageSize - requested page size (can be string, number, or invalid)
@@ -366,10 +367,13 @@ export const bulkTransactionService = async (
   transactions: CreateTransactionType[],
 ) => {
   try {
+    const user = await UserModel.findById(userId).select("baseCurrency").lean();
+    const baseCurrency = user?.baseCurrency || "USD";
+    
     const bulkOps = await Promise.all(
       transactions.map(async (tx) => {
-        const currencyFields = await resolveUserCurrencyConversion(
-          userId,
+        const currencyFields = await resolveCurrencyConversion(
+          baseCurrency,
           Number(tx.amount),
           tx.currency,
         );
@@ -406,13 +410,6 @@ export const bulkTransactionService = async (
       insertedCount: result.insertedCount,
       success: true,
     };
-
-
-
-
-
-
-
   } catch (error) {
     throw error;
   }
@@ -427,7 +424,7 @@ export const scanReceiptService = async (
 
   try {
     if (!file.path) {
-     throw new BadRequestException("Failed to upload file");
+    throw new BadRequestException("Failed to upload file");
     } 
     const result = await openai.chat.completions.create({
       model: openAIModel,
@@ -499,6 +496,9 @@ export const scanReceiptService = async (
       receiptUrl: file.path,
     };
   } catch (error) {
+    if (error instanceof BadRequestException) {
+      throw error;
+    }
     console.error("Receipt Scan Error:", error);
     throw new BadRequestException("Receipt scanning service unavailable");
   }
